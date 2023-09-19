@@ -96,4 +96,4 @@ zsdoc/data
 
 .env 
 
-.zip 
+*.zip 
