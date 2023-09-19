@@ -1,0 +1,20 @@
+
+services:
+  mc:
+    extends:
+      file: ../mc-common.yml
+      service: mc
+    env_file: mc-variables.env
+
+  mc-backup:
+    extends:
+      file: ../mc-common.yml
+      service: mc-backup
+
+networks:
+  minecraft-net:
+    external: true
+
+volumes:
+  data: {}
+  restore: {}
