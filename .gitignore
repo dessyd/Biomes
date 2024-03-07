@@ -100,3 +100,4 @@ zsdoc/data
 .env 
 
 *.zip 
+test.sh
