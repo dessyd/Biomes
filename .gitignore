@@ -99,5 +99,6 @@ zsdoc/data
 
 .env 
 
-*.zip 
+*.zip
+*.tgz
 test.sh

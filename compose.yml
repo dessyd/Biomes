@@ -7,9 +7,35 @@ services:
     env_file: mc-variables.env
 
   mc-backup:
-    extends:
-      file: ../mc-commons/mc-common.yml
-      service: mc-backup
+    image: itzg/mc-backup
+    networks:
+      minecraft-net:
+    depends_on:
+      mc:
+        condition: service_healthy
+    environment:
+      UID: 1027
+      GID: 100
+      BACKUP_NAME: ${WORLD_NAME:-world}
+      INITIAL_DELAY: ${INITIAL_DELAY:-5m}
+      BACKUP_INTERVAL: ${BACKUP_INTERVAL:-12h}
+      PAUSE_IF_NO_PLAYERS: true
+      PRUNE_BACKUPS_DAYS: ${PRUNE_BACKUPS_DAYS:-7}
+      LINK_LATEST: "true"
+      EXCLUDES: "*.jar,*.log,cache,logs"
+      RCON_HOST: mc
+      PRE_BACKUP_SCRIPT: |
+        echo "Before backup!"
+        echo "Also before backup from $$RCON_HOST to $$DEST_DIR"
+      POST_BACKUP_SCRIPT_FILE: /post-backup.sh
+      TZ: Europe/Brussels
+    volumes:
+      # mount the same volume used by server, but read-only
+      - data:/data:ro
+      # use a host attached directory so that it in turn can be backed up
+      # to external/cloud storage
+      - ./backups:/backups
+      - ./scripts/post-backup.sh:/post-backup.sh:ro
 
 networks:
   minecraft-net:
