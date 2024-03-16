@@ -4,7 +4,26 @@ services:
     extends:
       file: ../mc-commons/mc-common.yml
       service: mc
+    depends_on:
+      restore-backup:
+        condition: service_completed_successfully
     env_file: mc-variables.env
+
+
+  # "init" container for mc to restore the data volume when empty    
+  restore-backup:
+    # Same image as mc, but any base image with bash and tar will work
+    image: itzg/mc-backup
+    restart: "no"
+    entrypoint: restore-tar-backup
+    environment:
+      UID: 1027
+      GID: 100
+    volumes:
+      # Must be same mount as mc service, needs to be writable
+      - data:/data
+      # Must be same mount as backups service, but can be read-only
+      - ./backups:/backups:ro
 
   mc-backup:
     image: itzg/mc-backup
