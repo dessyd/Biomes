@@ -2,7 +2,7 @@
 SHELL = bash
 C_DIR := $(lastword $(subst /, ,$(CURDIR)))
 
-.PHONY: env up down clean
+.PHONY: env up logs down clean
 
 .env:
 	echo "Create $@ from template"
@@ -13,6 +13,9 @@ env: .env
 up: env
 	echo "Powering up"
 	docker-compose up -d
+
+logs:
+	docker-compose logs -f
 
 down:
 	echo "Powering down"
