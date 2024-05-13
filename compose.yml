@@ -26,9 +26,7 @@ services:
 
 networks:
   minecraft-net:
-  minio-net:
-    external: true
-      
+
 volumes:
   data: {}
-
+  
