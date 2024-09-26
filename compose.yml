@@ -24,8 +24,16 @@ services:
       # to external/cloud storage
       - ./backups:/backups
 
+  uf1:
+    extends:
+      file: ../mc-commons/mc-common.yml
+      service: uf1
+
 networks:
   minecraft-net:
+  splunknet:
+    name: splunk_splunknet
+    external: true
 
 volumes:
   data: {}
