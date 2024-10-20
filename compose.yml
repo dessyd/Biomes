@@ -6,28 +6,15 @@ services:
       service: mc
     env_file: mc-variables.env
 
-  # "init" container for mc to restore the data volume when empty    
   restore-backup:
     extends:
       file: ../mc-commons/mc-common.yml
       service: restore-backup
-    volumes:
-      # Must be same mount as backups service, but can be read-only
-      - ./backups:/backups:ro
 
   mc-backup:
     extends:
       file: ../mc-commons/mc-common.yml
       service: mc-backup
-    volumes:
-      # use a host attached directory so that it in turn can be backed up
-      # to external/cloud storage
-      - ./backups:/backups
-
-  uf1:
-    extends:
-      file: ../mc-commons/mc-common.yml
-      service: uf1
 
 networks:
   minecraft-net:

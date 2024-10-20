@@ -12,18 +12,18 @@ env: .env
 
 up: env
 	echo "Powering up"
-	docker-compose up -d
+	docker compose up -d
 
 logs:
-	docker-compose logs -f
+	docker compose logs -f
 
 down:
 	echo "Powering down"
-	docker-compose down
+	docker compose down
 
 clean:
 	echo "Powering down and removing volumes"
-	docker-compose down -v
+	docker compose down -v
 	rm -rf .env
 
 
